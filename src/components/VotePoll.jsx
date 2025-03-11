@@ -86,19 +86,19 @@ const VotingPage = () => {
 
   return (
     <div className="bg-fuchsia-50 h-screen flex items-center justify-center">
-      <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">{poll.question}</h1>
-
+      <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg min-w-[300px] md:min-w-[500px]">
+      <h1 className="text-2xl text-center font-bold mb-4  capitalize">{poll.question}</h1>
+<hr className="mb-2 -mt-1"/>
       {/* Show "Vote Expired" message if the poll has expired */}
       {isExpired && (
-        <div className="text-center text-red-500 font-semibold mb-4">
+        <div className="text-center text-red-500 font-semibold mb-4 border border-red-500 p-2">
           This poll has expired. Voting is no longer allowed.
         </div>
       )}
 
       {/* Poll Options */}
       {poll.options.map((option, index) => (
-        <div key={index} className="mb-2">
+        <div key={index} className="mb-2 w-full flex items-center justify-between">
           <label className="flex items-center">
             <input
               type="radio"
@@ -118,10 +118,10 @@ const VotingPage = () => {
           )}
         </div>
       ))}
-
+{console.log(isExpired , poll.showResults,poll)}
       {/* Show message based on result visibility */}
       {!isExpired && poll.showResults === "hide" && (
-        <div className="text-center text-gray-600 mb-4">
+        <div className="font-semibold p-2 mt-5 bg-fuchsia-100 rounded-lg capitalize text-center text-gray-600 mb-4">
           Results will be shown after the poll ends.
         </div>
       )}

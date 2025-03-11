@@ -18,7 +18,7 @@ const CreatePoll = () => {
       setOptions(["", ""]); // Reset options for multiple-choice polls
     }
   };
-
+  console.log(showResults);
   // Handle creating a poll
   const handleCreatePoll = async () => {
     try {
@@ -36,7 +36,11 @@ const CreatePoll = () => {
 
   return (
     <div className="">
-      <div className={`${pollLink && "flex flex-col lg:flex-row items-start gap-5"}  mx-0 lg:mx-20`}>
+      <div
+        className={`${
+          pollLink && "flex flex-col lg:flex-row items-start gap-5"
+        }  mx-0 lg:mx-20`}
+      >
         <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
           <h1 className="text-2xl font-bold mb-4">
             <span className="text-fuchsia-500">VanishVote</span> Create Poll
@@ -181,7 +185,10 @@ const CreatePoll = () => {
           {pollLink && (
             <div className="mt-4 p-4 bg-green-300 ">
               <p className="text-sm">Share this link:</p>
-              <a href={pollLink} className="text-purple-500 underline break-words">
+              <a
+                href={pollLink}
+                className="text-purple-500 underline break-words"
+              >
                 {pollLink}
               </a>
             </div>
