@@ -7,6 +7,7 @@ const CreatePoll = () => {
   const [options, setOptions] = useState(["", ""]); // For multiple-choice polls
   const [expiresIn, setExpiresIn] = useState(1);
   const [pollLink, setPollLink] = useState("");
+  const [showResults, setShowResults] = useState("hide"); // "hide" or "show"
 
   // Handle poll type change
   const handlePollTypeChange = (type) => {
@@ -25,6 +26,7 @@ const CreatePoll = () => {
         question,
         options,
         expiresIn,
+        showResults, // Pass the result visibility option
       });
       setPollLink(`http://localhost:5173/poll/${response.data.id}`); // Use port 5173
     } catch (error) {
@@ -112,6 +114,33 @@ const CreatePoll = () => {
           />
         </div>
       )}
+
+      {/* Result Visibility Selector */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-2">Result Visibility</label>
+        <div className="flex space-x-4">
+          <button
+            onClick={() => setShowResults("hide")}
+            className={`flex-1 p-2 rounded ${
+              showResults === "hide"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 hover:bg-gray-200"
+            }`}
+          >
+            Hide Results Until End
+          </button>
+          <button
+            onClick={() => setShowResults("show")}
+            className={`flex-1 p-2 rounded ${
+              showResults === "show"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 hover:bg-gray-200"
+            }`}
+          >
+            Show Results During Voting
+          </button>
+        </div>
+      </div>
 
       {/* Expiration Time Selector */}
       <select

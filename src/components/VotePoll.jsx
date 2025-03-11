@@ -8,35 +8,49 @@ const VotingPage = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [reactions, setReactions] = useState({});
   const [hasVoted, setHasVoted] = useState(false);
-  const [isExpired, setIsExpired] = useState(false); // Track if the poll has expired
+  const [isExpired, setIsExpired] = useState(false);
 
   // Fetch poll details
+  const fetchPoll = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/polls/${pollId}`);
+      const pollData = response.data;
+
+      // Ensure votes is a Map
+      if (pollData.votes && typeof pollData.votes === "object" && !(pollData.votes instanceof Map)) {
+        pollData.votes = new Map(Object.entries(pollData.votes));
+      }
+
+      setPoll(pollData);
+      setReactions(pollData.reactions || {});
+
+      // Check if the poll has expired
+      const currentTime = new Date();
+      const expiresAt = new Date(pollData.expiresAt);
+      if (currentTime > expiresAt) {
+        setIsExpired(true);
+      }
+    } catch (error) {
+      console.error("Error fetching poll:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchPoll = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/polls/${pollId}`);
-        const pollData = response.data;
+    fetchPoll();
 
-        // Ensure votes is a Map
-        if (pollData.votes && typeof pollData.votes === "object" && !(pollData.votes instanceof Map)) {
-          pollData.votes = new Map(Object.entries(pollData.votes));
-        }
-
-        // Check if the poll has expired
+    // Poll expiration check interval (every 5 seconds)
+    const interval = setInterval(() => {
+      if (poll && !isExpired) {
         const currentTime = new Date();
-        const expiresAt = new Date(pollData.expiresAt);
+        const expiresAt = new Date(poll.expiresAt);
         if (currentTime > expiresAt) {
           setIsExpired(true);
         }
-
-        setPoll(pollData);
-        setReactions(pollData.reactions || {});
-      } catch (error) {
-        console.error("Error fetching poll:", error);
       }
-    };
-    fetchPoll();
-  }, [pollId]);
+    }, 5000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [pollId, poll, isExpired]);
 
   // Handle voting
   const handleVote = async () => {
@@ -48,15 +62,7 @@ const VotingPage = () => {
       alert("Vote submitted!");
 
       // Refresh poll data to show updated results
-      const response = await axios.get(`http://localhost:3000/api/polls/${pollId}`);
-      const pollData = response.data;
-
-      // Ensure votes is a Map
-      if (pollData.votes && typeof pollData.votes === "object" && !(pollData.votes instanceof Map)) {
-        pollData.votes = new Map(Object.entries(pollData.votes));
-      }
-
-      setPoll(pollData);
+      fetchPoll();
     } catch (error) {
       console.error("Error submitting vote:", error);
     }
@@ -104,13 +110,20 @@ const VotingPage = () => {
             {option}
           </label>
           {/* Show vote count if the user has voted or the poll has expired */}
-          {(hasVoted || isExpired) && (
+          {(hasVoted || isExpired || poll.showResults === "show") && (
             <span className="ml-4 text-gray-600">
               Votes: {poll.votes.get(option) || 0}
             </span>
           )}
         </div>
       ))}
+
+      {/* Show message based on result visibility */}
+      {!isExpired && poll.showResults === "hide" && (
+        <div className="text-center text-gray-600 mb-4">
+          Results will be shown after the poll ends.
+        </div>
+      )}
 
       {/* Vote Button */}
       {!isExpired && (
