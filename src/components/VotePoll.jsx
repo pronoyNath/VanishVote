@@ -120,7 +120,7 @@ const VotingPage = () => {
         )}
 
         {/* Poll Options */}
-        {poll.options.map((option, index) => (
+        {  poll.options.map((option, index) => (
           <div
             key={index}
             className="mb-2 w-full flex items-center justify-between"
@@ -137,14 +137,14 @@ const VotingPage = () => {
               {option}
             </label>
             {/* Show vote count if the user has voted or the poll has expired */}
-            {(hasVoted || isExpired || poll.showResults === "show") && (
+            {( isExpired || poll.showResults === "show") && (
               <span className="ml-4 text-gray-600">
                 Votes: {poll.votes.get(option) || 0}
               </span>
             )}
           </div>
         ))}
-        {console.log(isExpired, poll.showResults, poll)}
+        {/* {console.log(isExpired, poll.showResults, poll)} */}
         {/* Show message based on result visibility */}
         {!isExpired && poll.showResults === "hide" && (
           <div className="font-semibold p-2 mt-5 bg-fuchsia-100 rounded-lg capitalize text-center text-gray-600 mb-4">
