@@ -22,13 +22,16 @@ const CreatePoll = () => {
   // Handle creating a poll
   const handleCreatePoll = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/polls", {
-        question,
-        options,
-        expiresIn,
-        showResults, // Pass the result visibility option
-      });
-      setPollLink(`http://localhost:5173/poll/${response.data.id}`); // Use port 5173
+      const response = await axios.post(
+        "https://vote-backend-five.vercel.app/api/polls",
+        {
+          question,
+          options,
+          expiresIn,
+          showResults, // Pass the result visibility option
+        }
+      );
+      setPollLink(`https://vanishvote.netlify.app/poll/${response.data.id}`); // Use port 5173
     } catch (error) {
       console.error("Error creating poll:", error);
     }
