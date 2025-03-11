@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const VotingPage = () => {
   const { pollId } = useParams(); // Get poll ID from the URL
@@ -68,12 +69,20 @@ const VotingPage = () => {
         }
       );
       setHasVoted(true); // Mark that the user has voted
-      alert("Vote submitted!");
+
+      Swal.fire({
+        title: "Vote submitted!",
+        icon: "success",
+      });
 
       // Refresh poll data to show updated results
       fetchPoll();
     } catch (error) {
       console.error("Error submitting vote:", error);
+      Swal.fire({
+        title: "somethng went wrong!",
+        icon: "error",
+      });
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const CreatePoll = () => {
   const [question, setQuestion] = useState("");
@@ -32,8 +33,16 @@ const CreatePoll = () => {
         }
       );
       setPollLink(`https://vanishvote.netlify.app/poll/${response.data.id}`); // Use port 5173
+      Swal.fire({
+        title: "Poll Created!",
+        icon: "success",
+      });
     } catch (error) {
       console.error("Error creating poll:", error);
+      Swal.fire({
+        title: "somethng went wrong!",
+        icon: "error",
+      });
     }
   };
 
