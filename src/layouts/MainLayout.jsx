@@ -9,7 +9,7 @@ const MainLayout = () => {
   const pollId = "123"; // Example poll ID
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-fuchsia-50 p-4">
       {isCreatePollPage ? <CreatePoll /> : <VotePoll pollId={pollId} />}
     </div>
   );

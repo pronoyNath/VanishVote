@@ -85,7 +85,8 @@ const VotingPage = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="bg-fuchsia-50 h-screen flex items-center justify-center">
+      <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-bold mb-4">{poll.question}</h1>
 
       {/* Show "Vote Expired" message if the poll has expired */}
@@ -160,6 +161,7 @@ const VotingPage = () => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -35,141 +35,159 @@ const CreatePoll = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Create Poll</h1>
+    <div className="">
+      <div className={`${pollLink && "flex flex-col lg:flex-row items-start gap-5"}  mx-0 lg:mx-20`}>
+        <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+          <h1 className="text-2xl font-bold mb-4">
+            <span className="text-fuchsia-500">VanishVote</span> Create Poll
+          </h1>
 
-      {/* Poll Question Input */}
-      <input
-        type="text"
-        placeholder="Enter your question"
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        className="w-full p-2 mb-4 border border-gray-300 rounded"
-      />
-
-      {/* Poll Type Selector */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Poll Type</label>
-        <div className="flex space-x-4">
-          <button
-            onClick={() => handlePollTypeChange("multiple-choice")}
-            className={`flex-1 p-2 rounded ${
-              pollType === "multiple-choice"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-100 hover:bg-gray-200"
-            }`}
-          >
-            Multiple Choice
-          </button>
-          <button
-            onClick={() => handlePollTypeChange("yes-no")}
-            className={`flex-1 p-2 rounded ${
-              pollType === "yes-no"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-100 hover:bg-gray-200"
-            }`}
-          >
-            Yes/No
-          </button>
-        </div>
-      </div>
-
-      {/* Poll Options */}
-      {pollType === "multiple-choice" ? (
-        <>
-          {options.map((option, index) => (
-            <input
-              key={index}
-              type="text"
-              placeholder={`Option ${index + 1}`}
-              value={option}
-              onChange={(e) => {
-                const newOptions = [...options];
-                newOptions[index] = e.target.value;
-                setOptions(newOptions);
-              }}
-              className="w-full p-2 mb-2 border border-gray-300 rounded"
-            />
-          ))}
-          <button
-            onClick={() => setOptions([...options, ""])}
-            className="w-full p-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Add Option
-          </button>
-        </>
-      ) : (
-        <div className="mb-4">
+          {/* Poll Question Input */}
           <input
             type="text"
-            value="Yes"
-            readOnly
-            className="w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+            placeholder="Enter your question"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="w-full p-2 mb-4 border border-gray-300 rounded-full"
+            required
           />
-          <input
-            type="text"
-            value="No"
-            readOnly
-            className="w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
-          />
-        </div>
-      )}
 
-      {/* Result Visibility Selector */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Result Visibility</label>
-        <div className="flex space-x-4">
-          <button
-            onClick={() => setShowResults("hide")}
-            className={`flex-1 p-2 rounded ${
-              showResults === "hide"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-100 hover:bg-gray-200"
-            }`}
+          {/* Poll Type Selector */}
+          <div className="mb-4">
+            <label className="block text-sm font-semibold mb-2">
+              Poll Type
+            </label>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handlePollTypeChange("multiple-choice")}
+                className={`flex-1 p-2 rounded ${
+                  pollType === "multiple-choice"
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+              >
+                Multiple Choice
+              </button>
+              <button
+                onClick={() => handlePollTypeChange("yes-no")}
+                className={`flex-1 p-2 rounded ${
+                  pollType === "yes-no"
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+              >
+                Yes/No
+              </button>
+            </div>
+          </div>
+
+          {/* Poll Options */}
+          {pollType === "multiple-choice" ? (
+            <>
+              {options.map((option, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  placeholder={`Option ${index + 1}`}
+                  value={option}
+                  onChange={(e) => {
+                    const newOptions = [...options];
+                    newOptions[index] = e.target.value;
+                    setOptions(newOptions);
+                  }}
+                  required
+                  className="w-full p-2 mb-2 border border-gray-300 rounded-full"
+                />
+              ))}
+              <button
+                onClick={() => setOptions([...options, ""])}
+                className="w-full p-2 mb-4 bg-purple-500 text-white rounded hover:bg-purple-600"
+              >
+                Add Option
+              </button>
+            </>
+          ) : (
+            <div className="mb-4">
+              <h3 className="text-xs text-yellow-600 text-center mb-1">
+                Only YES or NO option will show.
+              </h3>
+              <input
+                type="text"
+                value="Yes"
+                readOnly
+                className="w-full p-2 mb-2 border border-gray-300 rounded-full bg-gray-100"
+              />
+              <input
+                type="text"
+                value="No"
+                readOnly
+                className="w-full p-2 mb-2 border border-gray-300 rounded-full bg-gray-100"
+              />
+            </div>
+          )}
+
+          {/* Result Visibility Selector */}
+          <div className="mb-4">
+            <label className="block text-sm font-semibold mb-2">
+              Result Visibility
+            </label>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => setShowResults("hide")}
+                className={`flex-1 p-2 rounded ${
+                  showResults === "hide"
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+              >
+                Result After Voting
+              </button>
+              <button
+                onClick={() => setShowResults("show")}
+                className={`flex-1 p-2 rounded ${
+                  showResults === "show"
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+              >
+                Results During Voting
+              </button>
+            </div>
+          </div>
+
+          {/* Expiration Time Selector */}
+          <h3 className="block text-sm font-semibold mb-2">Expires In:</h3>
+          <select
+            value={expiresIn}
+            onChange={(e) => setExpiresIn(e.target.value)}
+            className="w-full p-2 mb-4 border border-gray-300 rounded-full"
           >
-            Hide Results Until End
-          </button>
+            <option value={1}>1 Hour</option>
+            <option value={12}>12 Hours</option>
+            <option value={24}>24 Hours</option>
+          </select>
+
+          {/* Create Poll Button */}
           <button
-            onClick={() => setShowResults("show")}
-            className={`flex-1 p-2 rounded ${
-              showResults === "show"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-100 hover:bg-gray-200"
-            }`}
+            onClick={handleCreatePoll}
+            className="w-full p-2 bg-teal-600 text-white rounded hover:bg-teal-500"
           >
-            Show Results During Voting
+            Create Poll
           </button>
+
+          {/* Poll Link */}
+        </div>
+        <div className="rounded w-[80vw] md:w-[60vw] lg:w-[40vw] mx-auto">
+          {pollLink && (
+            <div className="mt-4 p-4 bg-green-300 ">
+              <p className="text-sm">Share this link:</p>
+              <a href={pollLink} className="text-purple-500 underline break-words">
+                {pollLink}
+              </a>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Expiration Time Selector */}
-      <select
-        value={expiresIn}
-        onChange={(e) => setExpiresIn(e.target.value)}
-        className="w-full p-2 mb-4 border border-gray-300 rounded"
-      >
-        <option value={1}>1 Hour</option>
-        <option value={12}>12 Hours</option>
-        <option value={24}>24 Hours</option>
-      </select>
-
-      {/* Create Poll Button */}
-      <button
-        onClick={handleCreatePoll}
-        className="w-full p-2 bg-green-500 text-white rounded hover:bg-green-600"
-      >
-        Create Poll
-      </button>
-
-      {/* Poll Link */}
-      {pollLink && (
-        <div className="mt-4 p-4 bg-gray-100 rounded">
-          <p className="text-sm">Share this link:</p>
-          <a href={pollLink} className="text-blue-500 underline">
-            {pollLink}
-          </a>
-        </div>
-      )}
     </div>
   );
 };
